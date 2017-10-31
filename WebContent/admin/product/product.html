@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/store_v5.0/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/store_v5.0/easyui/themes/icon.css">
+	<script type="text/javascript" src="/store_v5.0/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/store_v5.0/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/store_v5.0/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+	<div style=" width: 50%;height: 300px;margin: 100px auto;">
+	<!--  商品表格 start -->
+		<table id="dg" ></table> 
+	<!--  商品表格 end -->
+	</div>
+	<div id="dd01" class="easyui-dialog" title="My Dialog" style="width:400px;height:200px;"   
+        data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">  
+        <form  id="ff1" enctype="multipart/form-data" method="post">
+        	商品名称<input type="text" name="pname"><br />
+        	市场价格<input type="text" name="market_price"><br />
+        	商城价格<input type="text" name="shop_price"><br />
+        	选择图片<input type="file" name="pimage"><br />
+        	是否热门<input type="radio" name="is_hot" value="1" checked="checked">是
+        	<input type="radio" name="is_hot" value="0">否<br />
+        	商品描述<input type="text" name="pdesc"><br />
+        	所属类别<select name="cid">
+        		<option value="1">手机数码</option>
+        		<option value="2">电脑办公</option>
+        	</select>
+        	<input type="button" value="上传" onclick="addPro()">
+        </form>
+         
+	</div>  
+	
+
+</body>
+<script type="text/javascript">
+	//页面加载
+	$(function(){
+		$('#dg').datagrid({    
+		    fitColumns:true,
+		    url:'/store_v5.0/AdminProductServlet?method=findAllPros',
+		    rownumbers:true,
+		    //第一 列列名
+		    columns:[[    
+		        {field:'pid',title:'商品编号',width:100,hidden:true},    
+		        {field:'pname',title:'商品名',width:100},    
+		        {field:'market_price',title:'市场价格',width:100},    
+		        {field:'shop_price',title:'商城价格',width:100},    
+		        {
+		        	field:'pimage',title:'图片信息',width:100,
+		        	formatter: function(value,row,index){
+						//console.log(value); 图片路径
+						//console.log(row); 	行上jesson文件
+						//console.log(index);	索引
+						//return "AAAA";	单元格显示内容
+						return "<img  src=/store_v5.0/"+value+" width=50px>";
+					}
+		        },
+		        {field:'pdate',title:'上架日期',width:100},    
+		        {
+		        	field:'is_hot',title:'是否热门',width:100,
+		        	formatter: function(value,row,index){
+						//console.log(value); 图片路径
+						//console.log(row); 	行上jesson文件
+						//console.log(index);	索引
+						//return "AAAA";	单元格显示内容
+						if("1" == value){
+							return "是";
+						}else{
+							return "否";
+							
+						}
+					}	
+		        },    
+		        {field:'pdesc',title:'产品介绍',width:100},    
+		        {
+		        	field:'pflag',title:'是否上架',width:100,
+		        	formatter: function(value,row,index){
+						//console.log(value); 图片路径
+						//console.log(row); 	行上jesson文件
+						//console.log(index);	索引
+						//return "AAAA";	单元格显示内容
+						if("0" == value){
+							return "是";
+						}else{
+							return "否";
+							
+						}
+					}	
+		        },  
+		    ]] ,
+		    pagination:true,
+		    pageNumber:1,
+		    pageList:[5,10,15],
+		    pageSize:5,
+		    toolbar: [{
+				iconCls: 'icon-add',
+				handler: function(){
+					addProTemp();
+				}
+			},'-',{
+				iconCls: 'icon-remove',
+				handler: function(){alert('删除按钮')}
+			},'-',{
+		    	text:"修改分类",
+				iconCls: 'icon-edit',
+				handler: function(){
+					
+				}
+			}]
+
+		}); 
+		
+	});
+	//页面加载完毕
+	function addProTemp(){
+		$('#dd01').dialog('open');  
+	}
+	
+	function addPro(){
+		$('#ff1').form('submit', {    
+		    url:"/store_v5.0/AdminProductServlet?method=addPro",    
+		    onSubmit: function(){    
+		        // do some check    
+		        // return false to prevent submit;    
+		    },    
+		    success:function(data){    
+		        alert(data)    
+		    }    
+		}); 
+	}
+	//添加
+	
+</script>
+</html>

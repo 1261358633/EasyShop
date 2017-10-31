@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="/store_v5.0/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/store_v5.0/easyui/themes/icon.css">
+	<script type="text/javascript" src="/store_v5.0/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/store_v5.0/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/store_v5.0/easyui/locale/easyui-lang-zh_CN.js"></script>
+	
+</head>
+<body >  
+	<div style="margin: 50px auto; width: 50%">
+	<!--  分类表格 start -->
+		<table id="dg" ></table> 
+	<!--  分类表格 end -->
+	<!--  添加窗口 start -->
+		<div id="dd" class="easyui-dialog" title="添加分类" style="width:280px;height:120px;padding: 20px"   
+        data-options="iconCls:'icon-add',modal:true,closed:true">
+        	<form method="post" id="ff1">
+        		<input type="text" name="cname"  >
+        		<input type="submit" value="添加分类" onclick="fun()">
+        	</form>
+		</div> 
+	<!--  添加窗口 end -->
+	<!--  修改窗口 start -->
+		<div id="dd02" class="easyui-dialog" title="修改分类" style="width:280px;height:120px;padding: 20px"   
+        data-options="iconCls:'icon-add',modal:true,closed:true">
+        	<form method="post" id="ff2">
+        		<input type="hidden" name="cid">
+        		<input type="text" name="cname"  >
+        		<input type="button" value="修改分类" onclick="updateCat()">
+        	</form>
+		</div> 
+	<!--  修改窗口 end -->
+	</div> 
+</body> 
+<script type="text/javascript">
+	$('#dg').datagrid({    
+	    //url:'datagrid_data01.json', 
+	    url:'/store_v5.0/AdminCategoryServlet?method=findAllCats', 
+	    fitColumns:true,
+	    singleSelect:true,
+	    columns:[[    
+	        {field:'cid',title:'编号',width:100},    
+	        {field:'cname',title:'名称',width:100},    
+	    ]],
+	    toolbar: [{
+	    	text:"添加分类",
+			iconCls: 'icon-add',
+			handler: function(){
+				addCat();
+			}
+		},'-',{
+			text:"删除分类",
+			iconCls: 'icon-remove',
+			handler: function(){
+				delCat();
+			}
+		},'-',{
+	    	text:"修改分类",
+			iconCls: 'icon-edit',
+			handler: function(){
+				updateCatTmp();
+			}
+		}]
+
+	});  
+	
+	function delCat(){
+		//获取选中的行 getSelected
+		var obj = $('#dg').datagrid('getSelected');    
+		//判断选没选中
+		if(null == obj){
+			//没选中return
+			$.messager.alert('我的消息','请选中后操作！','warning');
+			return;		
+		}else{
+			//选中提示确认选中分类,获取到待删除分类的cid,以ajax形式发送到服务端
+			$.messager.confirm('确认','您确认想要删除记录吗？',function(r){    
+			    if (r){    
+			       // alert('确认删除');   
+			       $.post("/store_v5.0/AdminCategoryServlet",{"method":"delCartByCid","cid":obj.cid},function(data){
+			    	   //alert(data);
+			    	   if("delCatOk"==data){
+				    	   $('#dg').datagrid('reload');    
+			    	   }
+			       });
+			    }    
+			});  
+
+		
+		}
+	}
+	
+	function addCat(){
+		$('#dd').dialog('open');  
+	}
+	function updateCatTmp(){
+		//获取选中的行 getSelected
+		var obj = $('#dg').datagrid('getSelected');    
+		//判断选没选中
+		if(null == obj){
+			//没选中return
+			$.messager.alert('我的消息','请选中后操作！','warning');
+			return;		
+		}else{//
+			$('#dd02').dialog('open'); 
+			$("#ff2").form("load",obj);
+			
+		}
+				
+	}
+	function updateCat(){
+		$('#ff2').form('submit', {    
+		    url:"/store_v5.0/AdminCategoryServlet?method=updateCat",     
+		    onSubmit: function(){    
+		        // do some check    
+		        // return false to prevent submit;    
+		    },    
+		    success:function(data){    
+		    	if("updateCatOk" == data){
+		    		$("#dd02").dialog("close");
+		        	$("#dg").datagrid("reload");
+		        	$("#ff2").form("clear");
+		    	}
+		    }    
+		}); 
+	}
+	
+	function fun(){
+		$('#ff1').form({    
+		    url:"/store_v5.0/AdminCategoryServlet?method=addCat",    
+		    onSubmit: function(){    
+		        // do some check    
+		        // return false to prevent submit;    
+		    },    
+		    success:function(data){
+		    	if("addCatOk" == data){
+		        	$("#dd").dialog("close");
+		        	$("#dg").datagrid("reload");
+		        	$("#ff1").form("clear");
+		    	}
+		    }    
+		});    
+		// submit the form    
+		$('#ff1').submit();  
+	}
+
+	
+</script>
+</html>

@@ -1,0 +1,11 @@
+{
+  "total":50,
+  "rows":
+  	[
+		{"pid":"p01","pname":"XXX","market_price":"23.23","shop_price":"222.33","pimage":"/products/1/c_0001.jpg","pdate":"2017年10月16日","is_hot":"1","pdesc":"XXXXXXX","pflag":"0"},
+		{"pid":"p02","pname":"XXX","market_price":"23.23","shop_price":"222.33","pimage":"/products/1/c_0002.jpg","pdate":"2017年10月16日","is_hot":"1","pdesc":"XXXXXXX","pflag":"0"},
+		{"pid":"p03","pname":"XXX","market_price":"23.23","shop_price":"222.33","pimage":"/products/1/c_0003.jpg","pdate":"2017年10月16日","is_hot":"1","pdesc":"XXXXXXX","pflag":"0"},
+		{"pid":"p04","pname":"XXX","market_price":"23.23","shop_price":"222.33","pimage":"/products/1/c_0004.jpg","pdate":"2017年10月16日","is_hot":"1","pdesc":"XXXXXXX","pflag":"0"},
+		{"pid":"p05","pname":"XXX","market_price":"23.23","shop_price":"222.33","pimage":"/products/1/c_0005.jpg","pdate":"2017年10月16日","is_hot":"1","pdesc":"XXXXXXX","pflag":"0"}
+	]
+}

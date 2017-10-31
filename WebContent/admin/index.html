@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="/store_v5.0/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/store_v5.0/easyui/themes/icon.css">
+	<script type="text/javascript" src="/store_v5.0/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/store_v5.0/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/store_v5.0/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<style type="text/css">
+		
+		.myClass{
+			display: block;
+			margin: 10px auto;
+			width: 80%;
+			background-color:#E4EEFF; 
+		}/* 当前元素转为区块元素*/
+	</style>
+	
+</head>
+<body class="easyui-layout">   
+	<!-- 北 start -->
+    <div data-options="region:'north'" style="height:30px;background-image: url('/store_v5.0/admin/images/layout-browser-hd-bg.gif');">
+    	<span style="color:#fff;margin-left: 30px;">欢迎登陆传智播客商城后台</span>
+    	<span style="color:#fff;margin-right: 30px;float: right;">欢迎admin
+    	<a style="color:#fff;float: right;margin-left: 30px;text-decoration: none;" href="" >退出</a></span>
+    </div>   
+	<!-- 北 end -->
+	<!-- 南 start -->
+    <div data-options="region:'south'" style="height:30px;background-color: #E4EEFF">
+    	<div style="text-align: center;">传智播客版权所有</div>
+    </div>   
+	<!-- 南 end -->
+	
+	<!-- 西 start -->
+    <div data-options="region:'west'" style="width:200px;">
+	   <div id="aa" class="easyui-accordion" style="width:300px;height:200px;"data-options="fit:true" >   
+		    <div title="分类管理" data-options="" style="overflow:auto;padding:10px;">   
+				<a class ="myClass" href="/store_v5.0/admin/catagory/category.html">分类管理</a>
+		        
+		    </div>   
+		    <div title="商品管理" data-options="" style="padding:10px;">   
+				<a class ="myClass" href="">商品管理</a>
+
+		    </div>   
+		    <!-- selected:true 默认让当前选择 -->
+		    <div title="用户管理" data-options="selected:true">   
+				<a class ="myClass" href="http://www.baidu.com">普通用户</a>
+				<a class ="myClass" href="http://www.jd.com">塑料用户</a>
+				<a class ="myClass" href="http://www.itcast.com">黄金用户</a>
+				<a class ="myClass" href="http://www.souhu.com">白金用户</a>
+				<a class ="myClass" href="http://www.hao123.com">钻石用户</a>
+		    </div>   
+		</div>  
+    	
+    </div>   
+	<!-- 西 end -->
+	<!-- 中 start -->
+    <div data-options="region:'center'" style="padding:5px;background:#eee;">
+    	<div id="tt" class="easyui-tabs" style="width:500px;height:250px;" data-options="fit:true">   
+		    <div title="首页" style="padding:20px;" >   
+		        tab1    
+		    </div>
+		    <!--     
+			    <div title="普通用户" style="padding:20px;" > 
+			    	<iframe style="width: 100%;height: 100%;border: 0;" src="http://www.baidu.com">
+			    	
+			    	</iframe>  
+			    </div> 
+		    -->  
+		</div>
+    
+    </div>   
+	<!-- 中 end -->
+</body> 
+	<script type="text/javascript">
+		
+		var color="";
+		$(function(){
+			$(".myClass").mouseover(function(){
+				//获取到原来的颜色
+				color = $(this).css("backgroundColor");
+				//设置新的颜色
+				 $(this).css("backgroundColor","blue");
+				 $(this).css("color","#fff");
+			}).mouseout(function(){
+				//清除当前颜色
+				 $(this).css("backgroundColor","");
+				//还原颜色
+				 $(this).css("backgroundColor",color);
+				 $(this).css("color","#000");
+			}).click(function(){
+				//为文本绑定事件
+				//获取到当前链接文本内容的title
+				var title = $(this).html();
+				//获取到当前链接href
+				var href = this.href;
+				//获取到当前链接href,面板判断是否存在
+				var obj = $("#tt").tabs("getTab",title);
+				if(null == obj ){
+					//不存在就添加到面板
+					$('#tt').tabs('add',{    
+					    title:title,    
+					    content:'<iframe style="width: 100%;height: 100%;border: 0;" src="'+href+'">',    
+					    closable:true,    
+					       
+					});
+				}else{
+					//存在就切换到面板
+					 $("#tt").tabs("select",title);
+					
+				}
+				return false;//阻止链接跳转
+			});
+			
+		});
+	
+	</script>
+	 
+</html>
